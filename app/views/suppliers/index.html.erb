@@ -1,0 +1,31 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Suppliers</h1>
+<table>
+  <thead>
+    <tr>
+      <th colspan="1"> Supplier Name</th>
+      <th colspan="1"> Bank Name</th>
+      <th colspan="1"> Account</th>
+      <th colspan="1"> Actions</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @suppliers.each do |supplier| %>
+
+      <tr>
+        <td><%= supplier.name %></td>
+        <td><%= supplier.bank_name %></td>
+        <td><%= supplier.account_number %></td>
+        <td><%= link_to 'Show', supplier %></td>
+        <td><%= link_to 'Edit', edit_supplier_path(supplier) %></td>
+        <td><%= link_to 'New Invoice', new_supplier_invoice_path(supplier.id) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Supplier', new_supplier_path %>

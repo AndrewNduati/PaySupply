@@ -1,0 +1,21 @@
+ <% if @invoice.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@invoice.errors.count, "error") %> prohibited this invoice from being saved:</h2>
+
+      <ul>
+      <% @invoice.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+  </div>
+  <div class="field">
+    <%= f.label :amount %>
+    <%= f.text_field :amount, required: true %>
+  </div>
+  <div class="actions">
+    <%= f.submit 'Create Invoice' %>
+  </div>

@@ -1,0 +1,6 @@
+<h1>Editing Invoice</h1>
+
+<%= form_with(model: @invoice, url: invoice_path, method: :put, local: true) do |f| %>
+ <%= render 'form', f:f %>
+<% end %>
+<%= link_to 'Show', @invoice %>
