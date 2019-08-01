@@ -1,10 +1,10 @@
 <%= form_with(model: supplier, local: true) do |f| %>
-  <% if supplier.errors.any? %>
+  <% if @supplier.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(supplier.errors.count, "error") %> prohibited this supplier from being saved:</h2>
+      <h2><%= pluralize(@supplier.errors.count, "error") %> prohibited this supplier from being saved:</h2>
 
       <ul>
-      <% supplier.errors.full_messages.each do |message| %>
+      <% @supplier.errors.full_messages.each do |message| %>
         <li><%= message %></li>
       <% end %>
       </ul>
@@ -18,13 +18,17 @@
 
   <div class="field">
     <%= f.label :account_number %>
-    <%= f.text_field :account_number, required: true %>
+    <%= f.text_field :account_number, required: true, maxlength: 10 %>
   </div>
 
   <!-- TODO: Populate select menu with list of banks PayStack supports. -->
   <div class="field">
     <%= f.label :bank_name %>
-    <%= f.text_field :bank_name, required: true %>
+    <%= f.select 'bank_name',
+                 options_for_select(@bank_names.map{ |obj| [obj['name'], obj['code']] }),
+                 { :include_blank =>"Choose One" },
+                 :required => true
+    %>
   </div>
 
   <div class="field">
