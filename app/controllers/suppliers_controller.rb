@@ -31,6 +31,9 @@ class SuppliersController < ApplicationController
     @recipient = Payment.new.create_recipient(supplier_params[:name],
                                               supplier_params[:account_number],
                                               supplier_params[:bank_name])
+    # Add the created recipient on PayStack.
+    @supplier.recipient_code = @recipient['data']['recipient_code']
+
     respond_to do |format|
       if @supplier.save && @recipient['status'] == true
         format.html { redirect_to @supplier, notice: 'Supplier was successfully created.' }

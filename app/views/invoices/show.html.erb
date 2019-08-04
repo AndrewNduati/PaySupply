@@ -2,9 +2,10 @@
 <table>
   <thead>
   <tr>
-    <th colspan="1"> Supplier Name</th>
-    <th colspan="1"> Invoice Amount</th>
-    <th colspan="1"> Actions</th>
+    <th colspan="1"> Supplier</th>
+    <th colspan="1"> Amount</th>
+    <th colspan="1">Status</th>
+    <th colspan="2"> Actions</th>
   </tr>
   </thead>
 
@@ -12,6 +13,7 @@
   <tr>
     <td><%= @invoice.supplier.name %></td>
     <td><%= @invoice.amount %></td>
+    <td><%= @invoice.pay_status %></td>
     <td><%= link_to 'Destroy', @invoice, method: :delete, data: { confirm: 'Are you sure?' } %></td>
   </tr>
 

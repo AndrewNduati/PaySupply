@@ -1,5 +1,5 @@
 class InvoicesController < ApplicationController
-  before_action :set_invoice, only: [:show, :edit, :update, :destroy]
+  before_action :set_invoice, only: [:show, :edit, :update, :destroy, :payment, :pay]
 
   # GET /invoices
   # GET /invoices.json
@@ -9,7 +9,6 @@ class InvoicesController < ApplicationController
    else
      @invoices = Invoice.all
    end
-
   end
 
   # GET /invoices/1
@@ -26,6 +25,25 @@ class InvoicesController < ApplicationController
   def edit
   end
 
+  # Render Payment page
+  def payment
+    @supplier = @invoice.supplier
+     render 'payment'
+  end
+
+  # Pay invoice off
+  def pay
+    @supplier = @invoice.supplier
+    @account_details = Payment.new.create_transfer(@supplier.recipient_code,
+                                                   @invoice.amount)
+    if @account_details['data']['status'] == 'success'
+      @invoice.update(:pay_status => 1)
+      redirect_to supplier_invoices_path, notice: 'Invoice has been paid'
+    else
+      render payment, notice: "Transfer not complete. Reason #{@account_details['message']}"
+    end
+  end
+
   # POST /invoices
   # POST /invoices.json
   def create
@@ -33,7 +51,7 @@ class InvoicesController < ApplicationController
 
     respond_to do |format|
       if @invoice.save
-        format.html { redirect_to @invoice, notice: 'Invoice was successfully created.' }
+        format.html { redirect_to supplier_invoices_path, notice: 'Invoice was successfully created.' }
         format.json { render :show, status: :created, location: @invoice }
       else
         format.html { render :new }
@@ -74,7 +92,7 @@ class InvoicesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def invoice_params
-      params.require(:invoice).permit(:amount, :supplier_id)
+      params.require(:invoice).permit(:amount, :supplier_id, :pay_status)
     end
 end
 # Thou shall not scaffold blindly

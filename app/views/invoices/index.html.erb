@@ -7,6 +7,7 @@
     <tr>
       <th colspan="1"> Supplier</th>
       <th colspan="1"> Amount</th>
+      <th colspan="1"> Status</th>
       <th colspan="3"> Actions</th>
 
     </tr>
@@ -17,8 +18,9 @@
       <tr>
         <td><%= invoice.supplier.name %></td>
         <td><%= invoice.amount %></td>
-        <td><%= link_to 'Show', supplier_invoices_path(invoice) %></td>
-        <td><%= link_to 'Edit', edit_invoice_path(invoice.id) %></td>
+        <td><%= invoice.pay_status %></td>
+        <td><%= link_to 'Pay', pay_invoice_path(:id => invoice.id) %></td>
+        <td><%= link_to 'Edit', edit_invoice_path(:id => invoice.id, :supplier_id => params[:supplier_id]) %></td>
         <td><%= link_to 'Destroy', invoice, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>

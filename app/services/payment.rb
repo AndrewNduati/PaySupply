@@ -5,7 +5,7 @@
 
     HEADERS = {
         :Authorization => "Bearer #{Rails.application.credentials.paystack_test_key}",
-        :'Content-Type' => "application/json"
+        :'Content-Type' => 'application/json'
     }
 
      # Returns bank names and codes
@@ -35,7 +35,7 @@
 
      # Creating Supplier recipient.
      def create_recipient(name, account_number, bank_code)
-      response = HTTParty.post("https://api.paystack.co/transferrecipient",
+      response = HTTParty.post('https://api.paystack.co/transferrecipient',
                                :headers => HEADERS,
                                :body => {:type => 'nuban',
                                          :name => name,
@@ -45,12 +45,24 @@
       response
      end
 
-     # Confirms Name of supplier
-     def create_transfer
+     # Creates a Transfer to supplier
+     def create_transfer(recipient_code, amount)
 
+       kobo = amount.to_i*100
+
+       transfer = HTTParty.post('https://api.paystack.co/transfer',
+                               :headers => HEADERS,
+                               :body => {
+                                   :amount => kobo,
+                                   :recipient => recipient_code
+                               }.to_json)
+       transfer
      end
+
+   private
+   #  Checks for valid account.
+   def check_account
+     response = HTTParty.get('https://api.paystack.co/bank/resolve?account_number=0022728151&bank_code=063',
+                             {:headers => HEADERS}).parsed_response
+   end
   end
-#
-# x = Payment.new()
-#
-# puts x.get_banks
