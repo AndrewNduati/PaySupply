@@ -22,6 +22,7 @@ class SuppliersController < ApplicationController
 
   # GET /suppliers/1/edit
   def edit
+    @bank_names = Payment.new.get_banks
   end
 
   # POST /suppliers
