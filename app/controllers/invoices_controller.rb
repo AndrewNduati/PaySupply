@@ -4,7 +4,7 @@ class InvoicesController < ApplicationController
   # GET /invoices
   # GET /invoices.json
   def index
-   if  params[:supplier_id]
+   if  params[:supplier_id].present?
      @invoices = Supplier.find(params[:supplier_id]).invoices
    else
      @invoices = Invoice.all
@@ -31,6 +31,12 @@ class InvoicesController < ApplicationController
      render 'payment'
   end
 
+  # All transfers
+  def transfers
+    @transfers = Payment.new.get_transfers
+    @transfers
+  end
+
   # Pay invoice off
   def pay
     @supplier = @invoice.supplier
@@ -38,7 +44,7 @@ class InvoicesController < ApplicationController
                                                    @invoice.amount)
     if @account_details['data']['status'] == 'success'
       @invoice.update(:pay_status => 1)
-      redirect_to supplier_invoices_path, notice: 'Invoice has been paid'
+      redirect_to supplier_invoices_path(:supplier_id => @supplier.id), notice: 'Invoice is being processed.'
     else
       render payment, notice: "Transfer not complete. Reason #{@account_details['message']}"
     end

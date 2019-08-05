@@ -59,6 +59,28 @@
        transfer
      end
 
+     #  Get all successful transfers
+     def get_transfers
+       response = self.class.get('/transfer', {:headers => HEADERS}).parsed_response
+
+       if response["status"]
+         transfers = Array.new(response["data"])
+         # Should refactor to a more Ruby way.
+         transfers.map do |x|
+           x.extract!("currency",
+                      "domain",
+                      "failures",
+                      "id",
+                      "integration",
+                      "reason",
+                      "source",
+                      "source_details",
+                      "titan_code",
+                      "metadata")
+         end
+       end
+       transfers
+     end
    private
    #  Checks for valid account.
    def check_account

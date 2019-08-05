@@ -19,7 +19,7 @@
         <td><%= invoice.supplier.name %></td>
         <td><%= invoice.amount %></td>
         <td><%= invoice.pay_status %></td>
-        <td><%= link_to 'Pay', pay_invoice_path(:id => invoice.id) %></td>
+        <td><%= paid_invoice(invoice) %></td>
         <td><%= link_to 'Edit', edit_invoice_path(:id => invoice.id, :supplier_id => params[:supplier_id]) %></td>
         <td><%= link_to 'Destroy', invoice, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
@@ -28,4 +28,6 @@
 </table>
 
 <br>
+
+<%= link_to 'All transfers', transfers_path %>
 
