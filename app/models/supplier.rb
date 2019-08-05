@@ -10,4 +10,5 @@ class Supplier < ApplicationRecord
             length: { minimum: 10,
                       maximum: 10,
                       message: 'Please insert the NUBAN account number.' }
+
 end

@@ -1,0 +1,27 @@
+<h2> Your Paystack transfers. </h2>
+
+<table>
+  <thead>
+  <tr>
+    <th colspan="1"> Supplier Name </th>
+    <th colspan="1"> Amount </th>
+    <th colspan="1">  Date </th>
+    <th colspan="1">  Reference </th>
+
+  </tr>
+  </thead>
+
+  <tbody>
+  <% @transfers.each do | transfer | %>
+  <tr>
+    <td><%= transfer['recipient']['name'] %></td>
+    <td><%= transfer['amount']/100 %></td>
+    <td><%= transfer['createdAt'] %></td>
+    <td><%= transfer['reference'] %></td>
+  </tr>
+  <% end %>
+  </tbody>
+</table>
+
+<br>
+<%= link_to 'All suppliers', suppliers_path %>

@@ -15,6 +15,8 @@ class SuppliersController < ApplicationController
 
   # GET /suppliers/new
   def new
+    @banks = Payment.new
+    @bank_names = @banks.get_banks
     @supplier = Supplier.new
   end
 
@@ -26,13 +28,20 @@ class SuppliersController < ApplicationController
   # POST /suppliers.json
   def create
     @supplier = Supplier.new(supplier_params)
+    @recipient = Payment.new.create_recipient(supplier_params[:name],
+                                              supplier_params[:account_number],
+                                              supplier_params[:bank_name])
+    # Add the created recipient on PayStack.
+    @supplier.recipient_code = @recipient['data']['recipient_code']
 
     respond_to do |format|
-      if @supplier.save
+      if @supplier.save && @recipient['status'] == true
         format.html { redirect_to @supplier, notice: 'Supplier was successfully created.' }
         format.json { render :show, status: :created, location: @supplier }
       else
-        format.html { render :new }
+        format.html do  redirect_to new_supplier_url,
+                                    notice: "There were errors saving you supplier. #{@recipient['message']}"
+        end
         format.json { render json: @supplier.errors, status: :unprocessable_entity }
       end
     end

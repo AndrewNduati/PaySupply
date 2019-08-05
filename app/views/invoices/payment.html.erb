@@ -1,0 +1,28 @@
+<h1>Pay Supplier</h1>
+
+<p id="notice"><%= notice %></p>
+
+<table>
+  <thead>
+  <tr>
+    <th colspan="1"> Supplier Name</th>
+    <th colspan="1"> Bank </th>
+    <th colspan="1">  Amount</th>
+    <th colspan="2">  Action</th>
+
+  </tr>
+  </thead>
+
+  <tbody>
+  <tr>
+    <td><%= @supplier.name %></td>
+    <td><%= @supplier.account_number %></td>
+    <td><%= @invoice.amount %></td>
+
+    <td><%= link_to 'Pay Invoice', payment_url(:id => @invoice.id) %></td>
+  </tr>
+
+  </tbody>
+</table>
+<%= link_to 'Edit', edit_supplier_path(@supplier) %> |
+<%= link_to 'Back', suppliers_path %>

@@ -11,10 +11,13 @@
   <% end %>
 
   <div class="field">
+    <input type="hidden" name="supplier_id" id="supplier_id" value=<%= params[:supplier_id] %> />
   </div>
   <div class="field">
     <%= f.label :amount %>
     <%= f.text_field :amount, required: true %>
+    <%= f.select :pay_status, %w(unpaid paid) %>
+    <%= f.hidden_field :supplier_id, value: "#{Supplier.find(params[:supplier_id]).id.to_i}" %>
   </div>
   <div class="actions">
     <%= f.submit 'Create Invoice' %>
